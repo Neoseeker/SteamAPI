@@ -45,12 +45,25 @@ class SteamAPIDriver {
 		return $this->get_xml_as_obj();
 	}
 
+	public function get_stats_xml_as_obj() {
+		$this->set_xml_location($this->get_stats_xml_url());
+		return $this->get_xml_as_obj();
+	}
+
 	public function set_games_xml_url() {
 		$this->games_xml_url = $this->_community_url.$this->_profile_path.'games'.$this->_api_format;
 	}
 
 	public function get_games_xml_url() {
 		return $this->games_xml_url;
+	}
+
+	public function set_stats_xml_url($game_title) {
+		$this->stats_xml_url = $this->_community_url.$this->_profile_path.'stats/'.$game_title.$this->_api_format;
+	}
+
+	public function get_stats_xml_url() {
+		return $this->stats_xml_url;
 	}
 
 	public function get_xml_location() {
