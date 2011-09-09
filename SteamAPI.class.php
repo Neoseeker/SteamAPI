@@ -69,7 +69,7 @@ class SteamAPI {
 				$games_array[$game->appID] = $game;
 			}
 		}
-		return $games;
+		return $games_array;
 	}
 
 	private function create_achievements_array($achievements) {

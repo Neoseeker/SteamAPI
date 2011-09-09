@@ -51,9 +51,12 @@ class SteamAPITest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(is_array($games));
 		$this->assertSame(50, count($games));
-		$this->assertSame('Dead Rising 2', $games[18]->name);
+		$this->assertSame('45740', $games[45740]->appID);
 	}
 
+	/**
+	 * @depends test_get_games
+	 */
 	function test_get_achievements_for_game() {
 		$driver = $this->getMock('steam\SteamAPIDriver', array('get_stats_xml_url'));
 		$driver->expects($this->any())->method('get_stats_xml_url')->will($this->returnValue('xml/stats.xml'));
@@ -65,9 +68,9 @@ class SteamAPITest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_array($achievements));
 		$this->assertTrue(array_key_exists('list', $achievements));
 		$this->assertTrue(array_key_exists('completed', $achievements));
-		$this->assertSame('22', $achievements['list'][22]->apiname);
-		$this->assertSame(43, count($achievements['list']));
-		$this->assertSame(18, count($achievements['completed']));
+		$this->assertSame('achievement_77', $achievements['list']['achievement_77']->apiname);
+		$this->assertSame(80, count($achievements['list']));
+		$this->assertSame(48, count($achievements['completed']));
 	}
 }
 ?>
