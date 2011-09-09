@@ -31,17 +31,14 @@ class SteamAPI {
 
 	public function get_achievements_for_game($game_title = false, $stats_url = false) {
 		$achievements = array();
-		if ($game_title) {
-			$this->driver->set_game_stats_url($game_title);
-		} elseif ($stats_url) {
-			$this->driver->set_xml_location($stats_url.'?xml=1');
-		}
-		/** @var \stdClass $xml_object */
-		$xml_object = $this->driver->get_xml_as_obj();
+
+		$this->driver->set_stats_xml_url($game_title);
+		$xml_object = $this->driver->get_stats_xml_as_obj();
 
 		if (isset($xml_object->achievements->achievement)) {
 			$achievements = $this->create_achievements_array($xml_object->achievements->achievement);
 		}
+
 		return $achievements;
 	}
 
