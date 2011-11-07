@@ -7,7 +7,7 @@ class SteamAPI {
 
 	/**
 	 * @PdInject steamapidriver
-	 * @param SteamAPIDriver $driver
+	 * @param steam\SteamAPIDriver $driver
 	 */
 	public function __construct($driver) {
 		$this->driver = $driver;
@@ -29,7 +29,7 @@ class SteamAPI {
 		return $games;
 	}
 
-	public function get_achievements_for_game($game_title = false, $stats_url = false) {
+	public function get_achievements_for_game($game_title) {
 		$achievements = array();
 
 		$this->driver->set_stats_xml_url($game_title);
@@ -55,7 +55,8 @@ class SteamAPI {
 		if (count($games) > 0) {
 			foreach ($games as $game) {
 				if (isset($game->statsLink)) {
-					$game->achievements = $this->get_achievements_for_game(false, $game->statsLink);
+					$game_title = preg_replace('#http.*/stats/(.*)#', '\\1', $game->statsLink);
+					$game->achievements = $this->get_achievements_for_game($game_title);
 				}
 			}
 		}
