@@ -6,14 +6,18 @@ class SteamAPIDriver {
 	private $_api_format;
 	private $xml_location;
 
+	private $users_xml_url;
+	private $games_xml_url;
+	private $stats_xml_url;
+
 	public function __construct() {
 		$this->_community_url = "http://steamcommunity.com/";
 		$this->_api_format = "?xml=1";
 	}
 
 	public function set_user($steamid) {
-		$this->_profile_path = (is_numeric($steamid)) ? "profiles/$steamid/" : "id/$steamid/";
-		$this->set_xml_location($this->_community_url.$this->_profile_path.$this->_api_format);
+		$this->set_users_xml_url($steamid);
+		$this->set_xml_location($this->get_users_xml_url());
 		$this->set_games_xml_url();
 	}
 
@@ -48,6 +52,15 @@ class SteamAPIDriver {
 	public function get_stats_xml_as_obj() {
 		$this->set_xml_location($this->get_stats_xml_url());
 		return $this->get_xml_as_obj();
+	}
+
+	public function set_users_xml_url($steamid) {
+		$this->_profile_path = (is_numeric($steamid)) ? "profiles/$steamid/" : "id/$steamid/";
+		$this->users_xml_url = $this->_community_url.$this->_profile_path.$this->_api_format;
+	}
+
+	public function get_users_xml_url() {
+		return $this->users_xml_url;
 	}
 
 	public function set_games_xml_url() {
