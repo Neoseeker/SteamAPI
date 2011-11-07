@@ -14,6 +14,12 @@ Incompletion of the following steps will result in an unaccepted commit.
 For the SteamAPI we are using PHPUnit. All tests can be found in /tests.
 While running the test we rely on a copy of the Steam Community API in a flat file .xml this ensures that you can unit test with consistant data and is not coupled with Steam's API; Using the live API would mean it requires an active internet connections, and may be slow.
 
+## Offline Mode
+In cases where your net connection is limited or non-existant you can test in offline mode; however, this is a bit limited based on what static XML files you have. The files used are in the /tests/xml/ directory.
+To enable offline mode you can do the following:
+$steamdriver->set_offline_mode(true);
+$steamdriver->set_static_xml_path('PATH TO SteamAPI/tests/xml/'); //Make sure you modify this to YOUR path!
+
 # Usage
 $steamdriver = new steam\SteamAPIDriver;
 $api = new steam\SteamAPI($steamdriver);
