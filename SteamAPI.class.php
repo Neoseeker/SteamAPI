@@ -65,9 +65,13 @@ class SteamAPI {
 
 	private function create_games_array($games) {
 		$games_array = array();
-		if (count($games) > 0) {
+		if (is_array($games) && count($games) > 0) {
 			foreach ($games as $game) {
 				$games_array[$game->appID] = $game;
+			}
+		} elseif (is_object($games)) {
+			if (isset($games->appID)) {
+				$games_array[$games->appID] = $games;
 			}
 		}
 		return $games_array;
