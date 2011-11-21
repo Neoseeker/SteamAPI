@@ -5,7 +5,7 @@ class SteamAPIDriver {
 	private $_profile_path;
 	private $_api_format;
 	private $xml_location;
-	private $in_offline_mode;
+	private $in_offline_mode = false;
 	private $static_xml_path = "/tests/xml/";
 
 	private $users_xml_url;
