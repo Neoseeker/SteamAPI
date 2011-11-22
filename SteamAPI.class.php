@@ -1,5 +1,5 @@
 <?php
-namespace steam;
+namespace Neoseeker\SteamAPI;
 class SteamAPI {
 	var $information;
 	/** @var SteamAPIDriver $driver */
@@ -81,9 +81,11 @@ class SteamAPI {
 		$achievements_array = array();
 		if (count($achievements) > 0) {
 			foreach ($achievements as $achievement) {
-				$achievements_array['list'][$achievement->apiname] = $achievement;
-				if ($achievement->{'@attributes'}->closed == 1) {
-					$achievements_array['completed'][] = $achievement->apiname;
+				if (is_object($achievement)) {
+					$achievements_array['list'][$achievement->apiname] = $achievement;
+					if ($achievement->{'@attributes'}->closed == 1) {
+						$achievements_array['completed'][] = $achievement->apiname;
+					}
 				}
 			}
 		}

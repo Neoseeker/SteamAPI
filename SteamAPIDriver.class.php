@@ -1,5 +1,5 @@
 <?php
-namespace steam;
+namespace Neoseeker\SteamAPI;
 class SteamAPIDriver {
 	private $_community_url;
 	private $_profile_path;

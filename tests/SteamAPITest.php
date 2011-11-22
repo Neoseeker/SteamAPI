@@ -27,25 +27,25 @@ class SteamAPITest extends PHPUnit_Framework_TestCase {
 	}
 
 	function test_load_by_username() {
-		$driver = new steam\SteamAPIDriver;
-		$api = new steam\SteamAPI($driver);
+		$driver = new Neoseeker\SteamAPI\SteamAPIDriver;
+		$api = new Neoseeker\SteamAPI\SteamAPI($driver);
 		$api->load('tekmosis');
 		$this->assertSame('76561197960550263', $api->information->steamID64);
 		return $api;
 	}
 
 	function test_load_by_steamid64() {
-		$driver = new steam\SteamAPIDriver;
-		$api = new steam\SteamAPI($driver);
+		$driver = new Neoseeker\SteamAPI\SteamAPIDriver;
+		$api = new Neoseeker\SteamAPI\SteamAPI($driver);
 		$api->load(76561197960550263);
 		$this->assertSame('76561197960550263', $api->information->steamID64);
 	}
 
 	function test_get_games() {
-		$driver = $this->getMock('steam\SteamAPIDriver', array('get_games_xml_url'));
+		$driver = $this->getMock('Neoseeker\SteamAPI\SteamAPIDriver', array('get_games_xml_url'));
 		$driver->expects($this->any())->method('get_games_xml_url')->will($this->returnValue('xml/games.xml'));
 
-		$api = new steam\SteamAPI($driver);
+		$api = new Neoseeker\SteamAPI\SteamAPI($driver);
 		$api->load('tekmosis');
 		$games = $api->get_games();
 
@@ -58,10 +58,10 @@ class SteamAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends test_get_games
 	 */
 	function test_get_achievements_for_game() {
-		$driver = $this->getMock('steam\SteamAPIDriver', array('get_stats_xml_url'));
+		$driver = $this->getMock('Neoseeker\SteamAPI\SteamAPIDriver', array('get_stats_xml_url'));
 		$driver->expects($this->any())->method('get_stats_xml_url')->will($this->returnValue('xml/stats.xml'));
 
-		$api = new steam\SteamAPI($driver);
+		$api = new Neoseeker\SteamAPI\SteamAPI($driver);
 		$api->load('tekmosis');
 		$achievements = $api->get_achievements_for_game('brink');
 
