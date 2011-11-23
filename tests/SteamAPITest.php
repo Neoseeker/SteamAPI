@@ -5,8 +5,8 @@
  */
 class SteamAPITest extends PHPUnit_Framework_TestCase {
 	static function setUpBeforeClass() {
-		include '../SteamAPI.class.php';
-		include '../SteamAPIDriver.class.php';
+		include '../SteamAPI.php';
+		include '../SteamAPIDriver.php';
 	}
 
 	static function tearDownAfterClass() {
