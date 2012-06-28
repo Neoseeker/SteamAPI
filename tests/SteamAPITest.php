@@ -63,8 +63,9 @@ class SteamAPITest extends PHPUnit_Framework_TestCase {
 
 		$api = new Neoseeker\SteamAPI\SteamAPI($driver);
 		$api->load('tekmosis');
-		$achievements = $api->get_achievements_for_game('brink');
-
+		$game= new stdClass();
+		$game->statsLink = 'http://steamcommunity.com/id/tekmosis/stats/brink';
+		$achievements = $api->get_achievements_for_game($game);
 		$this->assertTrue(is_array($achievements));
 		$this->assertTrue(array_key_exists('list', $achievements));
 		$this->assertTrue(array_key_exists('completed', $achievements));
