@@ -36,18 +36,21 @@ class SteamAPIDriver {
 	 */
 	public function get_xml_as_obj() {
 		$xml_response = $this->get_xml();
+		if ($xml_response == false) {
+			return false;
+		}
 		$xml_object = $this->convert_to_object($xml_response);
 		return $xml_object;
 	}
 
 	public function get_xml($resource = null) {
-		try {
-			$xml_response = simplexml_load_file($this->get_xml_location(), null, LIBXML_NOCDATA);
-			$this->unset_location();
-			return $xml_response;
-		} catch (\Exception $e) {
+		$location = $this->get_xml_location();
+		$xml_response = @simplexml_load_file($location, null, LIBXML_NOCDATA);
+		if ($xml_response == false) {
 			return false;
 		}
+		$this->unset_location();
+		return $xml_response;
 	}
 
 	public function get_games_xml_as_obj() {

@@ -29,16 +29,19 @@ class SteamAPI {
 		return $games;
 	}
 
-	public function get_achievements_for_game($game_title) {
+	public function get_achievements_for_game($game) {
 		$achievements = array();
 
-		$this->driver->set_stats_xml_url($game_title);
-		$xml_object = $this->driver->get_stats_xml_as_obj();
+		if (isset($game->statsLink)) {
+			$game_title = preg_replace('#http.*/stats/(.*)#', '\\1', $game->statsLink);
+			$game->achievements = $this->get_achievements_for_game($game_title);
+			$this->driver->set_stats_xml_url($game_title);
+			$xml_object = $this->driver->get_stats_xml_as_obj();
 
-		if (isset($xml_object->achievements->achievement)) {
-			$achievements = $this->create_achievements_array($xml_object->achievements->achievement);
+			if (isset($xml_object->achievements->achievement)) {
+				$achievements = $this->create_achievements_array($xml_object->achievements->achievement);
+			}
 		}
-
 		return $achievements;
 	}
 
@@ -54,10 +57,7 @@ class SteamAPI {
 		$games = $this->get_games();
 		if (count($games) > 0) {
 			foreach ($games as $game) {
-				if (isset($game->statsLink)) {
-					$game_title = preg_replace('#http.*/stats/(.*)#', '\\1', $game->statsLink);
-					$game->achievements = $this->get_achievements_for_game($game_title);
-				}
+				$game->achievements = $this->get_achievements_for_game($game);
 			}
 		}
 		return $games;
