@@ -23,6 +23,10 @@ class SteamAPI {
 		$games = array();
 		/** @var \stdClass $xml_object */
 		$xml_object = $this->driver->get_games_xml_as_obj();
+		if ($this->check_if_users_profile_is_private($xml_object)) {
+			$games['error'] = 'private_user_profile';
+			return $games;
+		}
 		if (isset($xml_object->games->game)) {
 			$games = $this->create_games_array($xml_object->games->game);
 		}
@@ -90,6 +94,14 @@ class SteamAPI {
 			}
 		}
 		return $achievements_array;
+	}
+
+	private function check_if_users_profile_is_private($xml_object) {
+		if (isset($xml_object->error) && preg_match('/private/', $xml_object->error)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 ?>
