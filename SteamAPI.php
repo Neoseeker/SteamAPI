@@ -23,6 +23,10 @@ class SteamAPI {
 		$games = array();
 		/** @var \stdClass $xml_object */
 		$xml_object = $this->driver->get_games_xml_as_obj();
+		if ($this->check_if_user_has_no_games($xml_object)) {
+			$games['error'] = 'no games';
+			return $games;
+		}
 		if ($this->check_if_users_profile_is_private($xml_object)) {
 			$games['error'] = 'private_user_profile';
 			return $games;
@@ -102,6 +106,13 @@ class SteamAPI {
 		} else {
 			return false;
 		}
+	}
+
+	private function check_if_user_has_no_games($xml_object) {
+		if (isset($xml_object) && isset($xml_object->games) && !isset($xml_object->games->game)) {
+			return true;
+		}
+		return false;
 	}
 }
 ?>
