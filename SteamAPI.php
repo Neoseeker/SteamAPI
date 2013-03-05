@@ -27,7 +27,7 @@ class SteamAPI {
 			$games['error'] = 'no games';
 			return $games;
 		}
-		if ($this->check_if_users_profile_is_private($xml_object)) {
+		if ($xml_object == false && $this->check_if_users_profile_is_private()) {
 			$games['error'] = 'private_user_profile';
 			return $games;
 		}
@@ -100,12 +100,15 @@ class SteamAPI {
 		return $achievements_array;
 	}
 
-	private function check_if_users_profile_is_private($xml_object) {
-		if (isset($xml_object->error) && preg_match('/private/', $xml_object->error)) {
-			return true;
-		} else {
-			return false;
+	private function check_if_users_profile_is_private() {
+		$xml_location = $this->driver->get_games_xml_url();
+		$headers = get_headers($xml_location);
+		foreach ($headers as $header) {
+			if (preg_match('/302 Found/', $header)) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	private function check_if_user_has_no_games($xml_object) {
