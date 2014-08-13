@@ -104,7 +104,7 @@ class SteamAPI {
 		$xml_location = $this->driver->get_games_xml_url();
 		$headers = get_headers($xml_location);
 		foreach ($headers as $header) {
-			if (preg_match('/302 Found/', $header)) {
+			if (preg_match('/302/', $header)) {
 				return true;
 			}
 		}
