@@ -16,12 +16,12 @@ class SteamPrivateAPI {
 		try {
 			$api->send();
 			if ($api->getResponseCode() == 200) {
-				return $api->getResponseBody();
+				return json_decode($api->getResponseBody());
 			}
 		} catch (\HttpException $ex) {
 			echo $ex;
 		}
-
+		return null;
 	}
 
 	public function get_player_achievements($appid, $steamid) {
@@ -38,11 +38,52 @@ class SteamPrivateAPI {
 		try {
 			$api->send();
 			if ($api->getResponseCode() == 200) {
-				return $api->getResponseBody();
+				return json_decode($api->getResponseBody());
 			}
 		} catch (\HttpException $ex) {
 			echo $ex;
 		}
+		return null;
+	}
+
+	public function get_schema_for_game($appid) {
+		if (is_numeric($appid)) {
+			$api = new \HttpRequest($this->url."ISteamUserStats/GetSchemaForGame/v2/", \HttpRequest::METH_GET);
+			$api->addQueryData(array(
+				'appid'		=> $appid,
+				'key'		=> STEAM_API_KEY,
+			));
+			try {
+				$api->send();
+				if ($api->getResponseCode() == 200) {
+					return json_decode($api->getResponseBody());
+				}
+			} catch (\HttpException $ex) {
+				echo $ex;
+			}
+		}
+		return null;
+	}
+
+	public function get_owned_games($steamid) {
+		if (is_numeric($steamid)) {
+			$api = new \HttpRequest($this->url."IPlayerService/GetOwnedGames/v0001/", \HttpRequest::METH_GET);
+			$api->addQueryData(array(
+				'steamid'					=> $steamid,
+				'key'						=> STEAM_API_KEY,
+				'include_appinfo'			=> 1,
+//				'include_played_free_games'	=> 1,
+			));
+			try {
+				$api->send();
+				if ($api->getResponseCode() == 200) {
+					return json_decode($api->getResponseBody());
+				}
+			} catch(\HttpException $ex) {
+				echo $ex;
+			}
+		}
+		return null;
 	}
 
 }
