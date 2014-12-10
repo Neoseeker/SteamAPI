@@ -29,7 +29,7 @@ class SteamPrivateAPITest extends PHPUnit_Framework_TestCase {
 
 	function test_get_player_summaries() {
 		$api = new \Neoseeker\SteamAPI\SteamPrivateAPI;
-		$player_info = json_decode($api->get_player_summaries(76561197970553605));
+		$player_info = $api->get_player_summaries(76561197970553605);
 		$this->assertSame('76561197970553605', $player_info->response->players[0]->steamid);
 		$this->assertSame('Red', $player_info->response->players[0]->personaname);
 
@@ -39,8 +39,14 @@ class SteamPrivateAPITest extends PHPUnit_Framework_TestCase {
 
 	function test_get_player_achievements() {
 		$api = new \Neoseeker\SteamAPI\SteamPrivateAPI;
-		$achievement = json_decode($api->get_player_achievements(22380,76561197970553605));
+		$achievement = $api->get_player_achievements(22380,76561197970553605);
 		$this->assertSame('Fallout: New Vegas', $achievement->playerstats->gameName);
+	}
+
+	function test_get_schema_for_game() {
+		$api = new \Neoseeker\SteamAPI\SteamPrivateAPI();
+		$game_info = $api->get_schema_for_game(440);
+		$this->assertSame('Team Fortress 2', $game_info->game->gameName);
 	}
 }
 ?>

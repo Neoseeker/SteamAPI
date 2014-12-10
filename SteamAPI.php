@@ -42,13 +42,18 @@ class SteamAPI {
 
 		if (isset($game->statsLink)) {
 			$game_title = preg_replace('#http.*/stats/(.*)#', '\\1', $game->statsLink);
-			$game->achievements = $this->get_achievements_for_game($game_title);
-			$this->driver->set_stats_xml_url($game_title);
-			$xml_object = $this->driver->get_stats_xml_as_obj();
+			$achievements = $this->get_achievements_by_appid($game_title);
+		}
+		return $achievements;
+	}
 
-			if (isset($xml_object->achievements->achievement)) {
-				$achievements = $this->create_achievements_array($xml_object->achievements->achievement);
-			}
+	public function get_achievements_by_appid($appid) {
+		$achievements = array();
+		$this->driver->set_stats_xml_url($appid);
+		$xml_object = $this->driver->get_stats_xml_as_obj();
+
+		if (isset($xml_object->achievements->achievement)) {
+			$achievements = $this->create_achievements_array($xml_object->achievements->achievement);
 		}
 		return $achievements;
 	}
@@ -88,6 +93,9 @@ class SteamAPI {
 	private function create_achievements_array($achievements) {
 		$achievements_array = array();
 		if (count($achievements) > 0) {
+			if (count($achievements) == 1) {
+				$achievements = array($achievements);
+			}
 			foreach ($achievements as $achievement) {
 				if (is_object($achievement)) {
 					$achievements_array['list'][$achievement->apiname] = $achievement;
