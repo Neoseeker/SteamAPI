@@ -34,6 +34,9 @@ class SteamAPI {
 		if (isset($xml_object->games->game)) {
 			$games = $this->create_games_array($xml_object->games->game);
 		}
+		if (empty($games) && isset($xml_object->error) && $xml_object->error) {
+			$games['error'] = $xml_object->error;
+		}
 		return $games;
 	}
 
