@@ -4,6 +4,10 @@ This project is a PHP wrapper for the Steam Community XML API which is used for 
 
 If you use this please link to our Steam home page (found at the bottom of this document).
 
+# Prerequisites
+
+* curl extension: https://github.com/php-curl-class/php-curl-class
+
 # Contributing
 Please note that you must have PHPUnit setup as this is a requirement for contributing to this project so that we can retain a bug-free project.
 
@@ -14,10 +18,10 @@ Incompletion of the following steps will result in an unaccepted commit.
 
 # Unit Test
 For the SteamAPI we are using PHPUnit. All tests can be found in /tests.
-While running the test we rely on a copy of the Steam Community API in a flat file .xml this ensures that you can unit test with consistant data and is not coupled with Steam's API; Using the live API would mean it requires an active internet connections, and may be slow.
+While running the test we rely on a copy of the Steam Community API in a flat file .xml this ensures that you can unit test with consistent data and is not coupled with Steam's API; Using the live API would mean it requires an active internet connections, and may be slow.
 
 ## Offline Mode
-In cases where your net connection is limited or non-existant you can test in offline mode; however, this is a bit limited based on what static XML files you have. The files used are in the /tests/xml/ directory.
+In cases where your net connection is limited or non-existent you can test in offline mode; however, this is a bit limited based on what static XML files you have. The files used are in the /tests/xml/ directory.
 To enable offline mode you can do the following:
 
 ```php
